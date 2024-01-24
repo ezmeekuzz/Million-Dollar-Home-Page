@@ -6,7 +6,7 @@ $(document).ready(function () {
 
     // Fetch image data from the server
     $.ajax({
-        url: '/home/getData',
+        url: '/buypixels/getData',
         method: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -206,19 +206,16 @@ $(document).ready(function () {
 
     // Bootstrap modal setup
     const modal = $('#paymentModal');
-    const totalAmountLabel = $('#totalAmountLabel');
+    const totalAmountLabel = $('#paymentModalLabel');
     const totalAmountInput = $('#totalAmountInput');
-    const paypalButton = $('#paypalButton');
+    //const paypalButton = $('#paypalButton');
 
     function openModal(totalAmount) {
         totalAmountLabel.text(`Total Amount: $${totalAmount}`);
         totalAmountInput.val(`${totalAmount}`);
         modal.modal('show');
     }
-
-    function closeModal() {
-        modal.modal('hide');
-    }
+    
     paypal.Buttons({
         createOrder: (data, actions) => {
             var name = $('#name').val();
@@ -227,16 +224,24 @@ $(document).ready(function () {
             var imageLocation = $('#imageLocation')[0].files[0];
             var totalAmountInput = $('#totalAmountInput').val();
             var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    
-            if (name !== '' && email !== '' && phone !== '' && imageLocation !== '') {
+        
+            if (name !== '' && email !== '' && phone !== '') {
                 if (email.match(mailformat)) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: totalAmountInput
-                            }
-                        }]
-                    });
+                    if (imageLocation) {  // Check if an image is selected
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: totalAmountInput
+                                }
+                            }]
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Warning!',
+                            text: 'Please select an image!',
+                            icon: 'warning',
+                        });
+                    }
                 } else {
                     Swal.fire({
                         title: 'Warning!',
@@ -247,11 +252,11 @@ $(document).ready(function () {
             } else {
                 Swal.fire({
                     title: 'Warning!',
-                    text: 'Please fill up all of the required form!!',
+                    text: 'Please fill up all of the required form!',
                     icon: 'warning',
                 });
             }
-        },
+        },        
         onApprove: (data, actions) => {
             var name = $('#name').val();
             var email = $('#email').val();

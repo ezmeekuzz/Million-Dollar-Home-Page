@@ -19,4 +19,21 @@ class HomeController extends BaseController
     
         return $this->response->setJSON($data);
     }
+    public function searchData()
+    {
+        $imageCoordinate = new ImageCoordinatesModel();
+        $phoneNumber = $this->request->getPost('phoneNumber');
+        $data = $imageCoordinate
+                ->where('status', 'Approved')
+                ->where('phone', $phoneNumber)
+                ->first(); // Use first() instead of find()->first()
+    
+        if ($data) {
+            // Data found, return success response
+            return $this->response->setJSON($data);
+        } else {
+            // No data found, return error response
+            return $this->response->setJSON(['status' => 'error', 'message' => 'No data found for the entered phone number.']);
+        }
+    }
 }

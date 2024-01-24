@@ -53,7 +53,7 @@ $(document).ready(function () {
             placement: 'right',
             container: 'body', // This ensures the popover is not clipped by the parent container
             html: true,
-            content: `<div class="container">
+            content: `<div class="container" style ="width: 300px !important;">
                 <img src="${imagePath}" alt="Image" style="max-width: 100%; max-height: 100%;">
                 <div class="row">
                     <div class="col-lg-12 tooltip-details">
@@ -117,4 +117,50 @@ $(document).ready(function () {
     }
 
     createPixels();
+    $('#search-input').on('keydown', function (event) {
+        // Check if the pressed key is "Enter" (key code 13)
+        if (event.which === 13) {
+            // Prevent the default form submission behavior
+            event.preventDefault();
+
+            // Get the entered phone number from the input
+            var phoneNumber = $(this).val();
+
+            $.ajax({
+                url: '/home/searchData',
+                method: 'POST',
+                data: { phoneNumber: phoneNumber },
+                dataType: 'json',
+                success: function (response) {
+                    // Handle the response from the server
+                    if (response.status === 'error') {
+                        // Phone number not found or other error
+                        console.log('Phone number not found or error:', response.message);
+                        
+                        // Show a Swal error message
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'No data found for the entered phone number.',
+                            icon: 'error',
+                        });
+                    } else {
+                        // Phone number found, handle the data as needed
+                        console.log('Phone number found:', response.data);
+                        
+                        // Assuming these properties exist in your response
+                        var selectedPixelsCoordinates = response.selectedPixelsCoordinates;
+                        var imageLocation = response.imageLocation;
+                        var imageCoordinateId = response.image_coordinate_id;
+            
+                        coverPixels(pixelContainer, JSON.parse(selectedPixelsCoordinates), imageLocation, imageCoordinateId, response);
+                        $('.image-group[data-image-id="' + imageCoordinateId + '"]').click();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle AJAX errors if any
+                    console.error('AJAX error:', error);
+                }
+            });
+        }
+    });
 });

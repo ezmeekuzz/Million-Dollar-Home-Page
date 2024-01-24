@@ -51,6 +51,7 @@
                                                         <th>Total Amount</th>
                                                         <th>Image</th>
                                                         <th>Transaction Date</th>
+                                                        <th>Status</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>

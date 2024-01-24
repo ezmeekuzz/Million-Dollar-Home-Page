@@ -7,7 +7,7 @@
                         <a href="javascript:void:(0)" class="mobile-toggle">
                             <i class="ti ti-align-right"></i>
                         </a>
-                        <a class="navbar-brand" href="<?=base_url();?>admin/" style="color: #000;">
+                        <a class="navbar-brand" href="/" style="color: #000;">
                             PhotoWithGarbGreh
                         </a>
                     </div>
@@ -31,8 +31,20 @@
                             <li class="nav-static-title">Personal</li>
                             <li <?php if($activelink == 'home') { echo 'class="active"'; } ?>>
                                 <a href="<?=base_url()?>admin/home" aria-expanded="false">
-                                    <i class="nav-icon ti ti-book"></i>
+                                    <i class="nav-icon ti ti-home"></i>
                                     <span class="nav-title">Home</span>
+                                </a>
+                            </li>
+                            <li <?php if($activelink == 'approvedtransactions') { echo 'class="active"'; } ?>>
+                                <a href="<?=base_url()?>admin/approved-transactions" aria-expanded="false">
+                                    <i class="nav-icon ti ti-thumb-up"></i>
+                                    <span class="nav-title">Approved Transactions</span>
+                                </a>
+                            </li>
+                            <li <?php if($activelink == 'rejectedtransactions') { echo 'class="active"'; } ?>>
+                                <a href="<?=base_url()?>admin/rejected-transactions" aria-expanded="false">
+                                    <i class="nav-icon ti ti-thumb-down"></i>
+                                    <span class="nav-title">Rejected Transactions</span>
                                 </a>
                             </li>
                             <li class="nav-static-title">Users</li>

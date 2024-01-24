@@ -67,5 +67,13 @@ class BuyPixelsController extends BaseController
     {
         $this->response->setContentType('application/json');
         return json_encode(['status' => 'error', 'message' => $message]);
-    }    
+    }  
+
+    public function getData()
+    {
+        $imageCoordinate = new ImageCoordinatesModel();
+        $data = $imageCoordinate->where('status !=', 'Rejected')->findAll();
+    
+        return $this->response->setJSON($data);
+    }
 }

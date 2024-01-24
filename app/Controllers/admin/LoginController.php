@@ -12,7 +12,7 @@ class LoginController extends BaseController
     {
         // Check if the user is logged in
         if (session()->has('user_id')) {
-            return redirect()->to('/admin/bookings');
+            return redirect()->to('/admin/home');
         }
         $data = [
             'title' => 'Login | PhotoWithGarbGreh',
