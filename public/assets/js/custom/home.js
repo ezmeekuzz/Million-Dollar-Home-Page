@@ -53,24 +53,14 @@ $(document).ready(function () {
             placement: 'right',
             container: 'body', // This ensures the popover is not clipped by the parent container
             html: true,
-            content: `<div class="container" style ="width: 300px !important;">
+            content: `<div class="container custom-popover-content" style ="width: 300px !important;">
                 <img src="${imagePath}" alt="Image" style="max-width: 100%; max-height: 100%;">
                 <div class="row">
                     <div class="col-lg-12 tooltip-details">
-                        <span class="data-label">Name:</span>
-                        <span>${imageData.name}</span>
+                        <span id="customerName">${imageData.name}</span>
                     </div>
                     <div class="col-lg-12 tooltip-details">
-                        <span class="data-label">City:</span>
-                        <span>${imageData.city}</span>
-                    </div>
-                    <div class="col-lg-12 tooltip-details">
-                        <span class="data-label">State:</span>
-                        <span>${imageData.state}</span>
-                    </div>
-                    <div class="col-lg-12 tooltip-details">
-                        <span class="data-label">Country:</span>
-                        <span>${imageData.country}</span>
+                        <span>${imageData.city}, ${imageData.state}, ${imageData.country}</span>
                     </div>
                 </div>
             </div>`

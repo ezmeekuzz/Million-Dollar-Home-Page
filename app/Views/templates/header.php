@@ -7,13 +7,14 @@
         <meta name="author" content="" />
         <title>Home - PhotoWithGarbGreh</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="<?=base_url();?>assets/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous">
         <link rel="stylesheet" href="<?=base_url();?>assets/css/owl.carousel.min.css" />
         <link rel="stylesheet" href="<?=base_url();?>assets/css/owl.theme.default.min.css" />
         <link rel="stylesheet" href="<?=base_url();?>assets/css/main.css" />
         <link rel="stylesheet" href="<?=base_url();?>assets/css/responsive.css" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Barlow:ital@1&family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -78,6 +79,34 @@
             .search-popup.active {
                 display: block;
             }
+            .popover::before,
+            .popover::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                width: 0;
+                height: 0;
+            }
+
+            .popover::before {
+                left: -12px;
+                border: 8px solid transparent;
+                border-right-color: #fff; /* Color of the arrow */
+            }
+
+            .popover::after {
+                left: -11px;
+                border: 7px solid transparent;
+                border-right-color: /* Background color of the popover */;
+            }
+            .popover-header, .popover-body, .custom-popover-content {
+                background-color: #FFD580; /* Replace 'lightorange' with your desired color */
+                font-family: 'Barlow', sans-serif;
+            }
+            .custom-popover-content #customerName {
+                font-weight: bold !important;
+                font-size: 15px;
+            }
         </style>
     </head>
     <body>
@@ -117,14 +146,14 @@
                                 <a class="nav-link" href="/home">Homepage</a>
                             </li>
                             <li class="nav-item open-btn">
-                                <a class="nav-link" href="/buy-pixels">Buy Pixels</a>
+                                <a class="nav-link" href="/buy-pixels">Upload Image</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/faq">FAQ</a>
                             </li>
-                            <li class="nav-item">
+                            <!--<li class="nav-item">
                                 <a class="nav-link" href="/about-us">About Us</a>
-                            </li>
+                            </li>-->
                             <li class="nav-item">
                                 <a class="nav-link" href="/contact-me">Contact Me</a>
                             </li>
