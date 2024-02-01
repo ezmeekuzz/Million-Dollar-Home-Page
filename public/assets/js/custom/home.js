@@ -30,10 +30,29 @@ $(document).ready(function () {
         // Calculate the bounding box for selectedPixelsCoordinates
         const boundingBox = calculateBoundingBox(selectedPixelsCoordinates);
 
+        const City = imageData.city === '' ? '' : imageData.city;
+        const State = imageData.state === '' ? '' : ', ' + imageData.state;
+        const Country = imageData.country === '' ? '' : ', ' + imageData.country;
+        const Location = City + State + Country;
+        const content = `<div class="container custom-popover-content" style ="width: 300px !important;">
+            <img src="${imagePath}" alt="Image" style="max-width: 100%; max-height: 100%;">
+            <div class="row">
+                <div class="col-lg-12 tooltip-details">
+                    <span id="customerName">${imageData.name}</span>
+                </div>
+                <div class="col-lg-12 tooltip-details">
+                    <span>${Location}</span>
+                </div>
+            </div>
+        </div>`;
         // Create a single container for the group with the image as its background
         const groupContainer = document.createElement('div');
-        groupContainer.classList.add('image-group');
+        groupContainer.classList.add('image-group', 'popoverClick');
         groupContainer.setAttribute('data-image-id', imageId);
+        groupContainer.setAttribute('rel', 'popover');
+        groupContainer.setAttribute('data-placement', 'right');
+        groupContainer.setAttribute('data-original-title', 'Details');
+        groupContainer.setAttribute('data-content', content);
         groupContainer.style.position = 'absolute';
         groupContainer.style.left = boundingBox.x + 'px';
         groupContainer.style.top = boundingBox.y + 'px';
@@ -45,47 +64,22 @@ $(document).ready(function () {
 
         // Append the container to the pixel container
         container.appendChild(groupContainer);
-
-        const City = imageData.city === '' ? '' : imageData.city;
-        const State = imageData.state === '' ? '' : ', ' + imageData.state;
-        const Country = imageData.country === '' ? '' : ', ' + imageData.country;
-        const Location = City + State + Country;
         // Enable Bootstrap popover on the group container
-        const popover = new bootstrap.Popover(groupContainer, {
-            title: 'Details',
-            trigger: 'manual', // Manual trigger for custom click event
-            placement: 'right',
-            container: 'body', // This ensures the popover is not clipped by the parent container
-            html: true,
-            content: `<div class="container custom-popover-content" style ="width: 300px !important;">
-                <img src="${imagePath}" alt="Image" style="max-width: 100%; max-height: 100%;">
-                <div class="row">
-                    <div class="col-lg-12 tooltip-details">
-                        <span id="customerName">${imageData.name}</span>
-                    </div>
-                    <div class="col-lg-12 tooltip-details">
-                        <span>${Location}</span>
-                    </div>
-                </div>
-            </div>`
-        });
 
         // Add click event listener to the group container
-        $(groupContainer).on('click', function (event) {
-            // Toggle the popover on click
-            popover.toggle();
-
-            // Close the popover if the click is outside the popover or image
-            $(document).on('click', function (e) {
-                const target = $(e.target);
-                if (!target.is(groupContainer) && !target.closest('.popover').length) {
-                    popover.hide();
-                    $(document).off('click'); // Remove the click event listener after hiding the popover
+        $(document).ready(function(){
+            $('.popoverClick').popover({
+                html: true, // Allow HTML content
+                trigger: 'click' // Show popover on click
+            }); 
+            $('.popoverClick').on('click', function (e) {
+                $('.popoverClick').not(this).popover('hide');
+            });
+            $('html').on('click', function(e) {
+                if (typeof $(e.target).data('original-title') == 'undefined' && !$(e.target).parents().is('.popover.in')) {
+                  $('[data-original-title]').popover('hide');
                 }
             });
-
-            // Prevent the click event from propagating to document
-            event.stopPropagation();
         });
     }
 

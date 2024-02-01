@@ -3,6 +3,7 @@ $(document).ready(function () {
     const overlay = document.getElementById('overlay');
     let startX, startY;
     let selectionDiv;
+    let isOverlayTouchingCovered = false;
 
     // Fetch image data from the server
     $.ajax({
@@ -58,6 +59,25 @@ $(document).ready(function () {
         }
     }
 
+    function isInsideCoveredArea(x, y) {
+        const groupContainers = document.querySelectorAll('.restricted-pixel-boxes');
+    
+        for (const groupContainer of groupContainers) {
+            const groupRect = groupContainer.getBoundingClientRect();
+    
+            if (
+                x >= groupRect.left &&
+                x <= groupRect.right &&
+                y >= groupRect.top &&
+                y <= groupRect.bottom
+            ) {
+                return true; // Point is inside the covered area
+            }
+        }
+    
+        return false; // Point is not inside the covered area
+    }
+    
     function isInsideCompletePixelBox(x, y) {
         const rect = pixelContainer.getBoundingClientRect();
         const pixelSize = 10;
@@ -65,8 +85,17 @@ $(document).ready(function () {
         const row = Math.floor((y - rect.top) / pixelSize);
         const left = col * pixelSize + rect.left;
         const top = row * pixelSize + rect.top;
-        return x >= left && x <= left + pixelSize && y >= top && y <= top + pixelSize;
+    
+        // Check if the point is inside a complete pixel box
+        const isInsidePixelBox = x >= left && x <= left + pixelSize && y >= top && y <= top + pixelSize;
+    
+        // Check if the point is inside the area covered by coverPixels
+        const isInsideCovered = isInsideCoveredArea(x, y);
+    
+        // Return true only if inside a pixel box and not inside the covered area
+        return isInsidePixelBox && !isInsideCovered;
     }
+    
 
     pixelContainer.addEventListener('mousedown', (e) => {
         startX = e.clientX;
@@ -123,8 +152,8 @@ $(document).ready(function () {
         overlay.style.height = `${snappedSize}px`;
     
         // Update the overlay position based on the direction of drag
-        overlay.style.left = `${deltaX > 0 ? startX : (startX - snappedSize)}px`;
-        overlay.style.top = `${deltaY > 0 ? startY : (startY - snappedSize)}px`;
+        overlay.style.left = `${deltaX > 0 ? startX : startX - snappedSize}px`;
+        overlay.style.top = `${deltaY > 0 ? startY : startY - snappedSize}px`;
     
         // Set the size of the selection div if it exists
         if (selectionDiv) {
@@ -132,34 +161,44 @@ $(document).ready(function () {
             selectionDiv.style.height = `${snappedSize}px`;
         }
     
-        highlightSelectedPixels();
+        isOverlayTouchingCovered = checkOverlayTouchingCovered(); // Check if overlay touches covered blocks
+        highlightSelectedPixels(); // Update highlighted pixels
     }
-
+    function checkOverlayTouchingCovered() {
+        const overlayRect = overlay.getBoundingClientRect();
+        const groupContainers = document.querySelectorAll('.restricted-pixel-boxes');
+    
+        for (const groupContainer of groupContainers) {
+            const groupRect = groupContainer.getBoundingClientRect();
+    
+            if (
+                overlayRect.left < groupRect.right &&
+                overlayRect.right > groupRect.left &&
+                overlayRect.top < groupRect.bottom &&
+                overlayRect.bottom > groupRect.top
+            ) {
+                return true; // Overlay is touching covered blocks
+            }
+        }
+    
+        return false; // Overlay is not touching covered blocks
+    }
     function highlightSelectedPixels() {
         const pixels = document.querySelectorAll('.pixel');
         const rect = overlay.getBoundingClientRect();
         const pixelSize = 10;
-        const maxHighlightSize = 7;
-
+    
         const highlightedPixels = [];
-
+    
         pixels.forEach((pixel) => {
             const pixelRect = pixel.getBoundingClientRect();
-
-            const pixelCol = Math.floor((pixelRect.left - rect.left) / pixelSize);
-            const pixelRow = Math.floor((pixelRect.top - rect.top) / pixelSize);
-
-            const withinSelection = (
-                pixelCol >= 0 && pixelCol < maxHighlightSize &&
-                pixelRow >= 0 && pixelRow < maxHighlightSize
-            );
-
+    
+            // Check if any part of the pixel is inside the overlay
             if (
                 pixelRect.left < rect.right &&
                 pixelRect.right > rect.left &&
                 pixelRect.top < rect.bottom &&
-                pixelRect.bottom > rect.top &&
-                withinSelection
+                pixelRect.bottom > rect.top
             ) {
                 pixel.classList.add('highlighted');
                 highlightedPixels.push({
@@ -170,32 +209,50 @@ $(document).ready(function () {
                 pixel.classList.remove('highlighted');
             }
         });
-
+    
         console.log('Highlighted Pixels Coordinates:', highlightedPixels);
-    }
+    }    
 
     function endDrag() {
         document.removeEventListener('mousemove', handleDrag);
         document.removeEventListener('mouseup', endDrag);
     
-        overlay.style.display = 'none';
-    
-        // Calculate the total amount
-        const totalAmount = calculateTotalAmount();
-    
-        // Check if any pixels are highlighted and total amount is greater than 0
-        if (totalAmount > 0) {
-            // Open the payment modal with the total amount
-            openModal(totalAmount);
-        } else {
-            // Display a Swal message when no pixels are selected or total amount is 0
+        if (isOverlayTouchingCovered) {
+            // Display an error message
             Swal.fire({
-                title: 'Warning!',
-                text: 'No blocks selected!',
-                icon: 'warning',
+                title: 'Error!',
+                text: 'You cannot select already purchased blocks!',
+                icon: 'error',
             });
+    
+            // Reset the selection
+            overlay.style.width = '0';
+            overlay.style.height = '0';
+            overlay.style.display = 'none';
+            if (selectionDiv) {
+                selectionDiv.remove();
+                selectionDiv = null;
+            }
+        } else {
+            // Continue with the rest of the code
+    
+            // Calculate the total amount
+            const totalAmount = calculateTotalAmount();
+    
+            // Check if any pixels are highlighted and total amount is greater than 0
+            if (totalAmount > 0) {
+                // Open the payment modal with the total amount
+                openModal(totalAmount);
+            } else {
+                // Display a Swal message when no pixels are selected or total amount is 0
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'No blocks selected!',
+                    icon: 'warning',
+                });
+            }
         }
-    }    
+    }  
 
     function calculateTotalAmount() {
         const highlightedPixels = document.querySelectorAll('.highlighted');

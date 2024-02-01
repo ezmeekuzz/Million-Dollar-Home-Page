@@ -190,5 +190,8 @@
                     </div>
                 </nav>
             </div>
+            <div class="add-bottombar">
+                <h1>You can also upload <span><a href="/buy-pixels" target="_blank">here</a></span></h1>
+            </div>
         </div>
     </header>
