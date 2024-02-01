@@ -46,6 +46,10 @@ $(document).ready(function () {
         // Append the container to the pixel container
         container.appendChild(groupContainer);
 
+        const City = imageData.city === '' ? '' : imageData.city;
+        const State = imageData.state === '' ? '' : ', ' + imageData.state;
+        const Country = imageData.country === '' ? '' : ', ' + imageData.country;
+        const Location = City + State + Country;
         // Enable Bootstrap popover on the group container
         const popover = new bootstrap.Popover(groupContainer, {
             title: 'Details',
@@ -60,7 +64,7 @@ $(document).ready(function () {
                         <span id="customerName">${imageData.name}</span>
                     </div>
                     <div class="col-lg-12 tooltip-details">
-                        <span>${imageData.city}, ${imageData.state}, ${imageData.country}</span>
+                        <span>${Location}</span>
                     </div>
                 </div>
             </div>`

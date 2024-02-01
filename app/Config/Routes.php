@@ -11,11 +11,13 @@ $routes->get('/home/getData', 'HomeController::getData');
 $routes->post('/home/searchData', 'HomeController::searchData');
 $routes->get('/buypixels/getData', 'BuyPixelsController::getData');
 $routes->get('/edit/getData', 'EditController::getData');
-$routes->get('/buy-pixels', 'BuypixelsController::index');
+$routes->get('/buy-pixels', 'BuyPixelsController::index');
 $routes->get('/edit/(:num)', 'EditController::index/$1');
-$routes->post('/buypixels/insert', 'BuypixelsController::insert');
+$routes->post('/buypixels/insert', 'BuyPixelsController::insert');
+$routes->post('/contactme/sendMessage', 'ContactmeController::sendMessage');
 $routes->post('/edit/updateData', 'EditController::updateData');
-$routes->get('/about-us', 'AboutusController::index');
+$routes->get('/terms-and-conditions', 'TermsAndConditionsController::index');
+$routes->get('/privacy-policy', 'PrivacyPolicyController::index');
 $routes->get('/contact-me', 'ContactmeController::index');
 $routes->get('/faq', 'FaqController::index');
 

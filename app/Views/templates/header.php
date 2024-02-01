@@ -20,8 +20,26 @@
         <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer" ></script>
         <style>
-            body {
+            body, input, textarea {
                 font-family: 'Barlow', sans-serif;
+            }  
+            #loading {
+                position: fixed;
+                display: none;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                opacity: 0.7;
+                background-color: #fff;
+                z-index: 99999;
+            }
+            #loading-image {
+                z-index: 100;
+                width: 10%;
+                opacity: 1;
             }
             #pixel-container {
                 display: grid;
@@ -49,13 +67,13 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(0, 0, 0, 0.3);
+                background: transparent;
                 display: none;
                 pointer-events: none;
             }
 
             #overlay .selection {
-                border: 1px dashed #fff;
+                border: 1px dashed transparent;
                 position: absolute;
                 pointer-events: none;
             }

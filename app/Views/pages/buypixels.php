@@ -14,13 +14,13 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3 form-group">
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" autofocus required>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name (Required)" autofocus required>
                                 </div>
                                 <div class="mb-3 form-group">
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email (Required)" required>
                                 </div>
                                 <div class="mb-3 form-group">
-                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone number" required>
+                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone number (Required)" required>
                                 </div>
                                 <div class="mb-3 form-group">
                                     <input type="text" class="form-control" id="city" name="city" placeholder="City (Optional)">

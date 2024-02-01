@@ -1,6 +1,9 @@
         <footer>
             <p>RamBhakts.com © 2024. All rights reserved. I am not responsible for the content of the images. Images featured on homepage are © of their respective owners.</p>
-        </footer>
+        </footer>  
+        <div id="loading">
+            <img id="loading-image" src="<?=base_url();?>assets_admin/img/loader.gif" alt="Loading..." />
+        </div>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" ></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" ></script>
         <script src="<?=base_url();?>assets/js/owl.carousel.min.js"></script>

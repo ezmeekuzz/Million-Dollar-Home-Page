@@ -5,14 +5,13 @@
             <p>Want to get in touch? We'd love to hear from you.  Fill out the form with your Inquiry .</p>
             <div class="contact-form">
                 <h2>Contact Us</h2>
-                <form action="#">
-
-                    <label for="first-name" class="first-name">
-                      <input type="text" name="first-name" id="first-name" placeholder="First Name">
+                <form id="sendMessage">
+                    <label for="firstname" class="firstname">
+                      <input type="text" name="firstname" id="firstname" placeholder="First Name">
                     </label>
 
-                    <label for="last-name" class="last-name">
-                        <input type="text" name="last-name" id="last-name" placeholder="Last Name">
+                    <label for="lastname" class="lastname">
+                        <input type="text" name="lastname" id="lastname" placeholder="Last Name">
                     </label>
 
                     <label for="email" class="email">
@@ -24,9 +23,9 @@
                     </label>
 
                     <input type="submit" value="Submit" name="submit" id="submit">
-
                   </form>
             </div>
         </div>
     </section>
+<script type="text/javascript" src="assets/js/custom/contactme.js"></script>
 <?=$this->include('templates/footer');?>
