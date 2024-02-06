@@ -134,19 +134,15 @@
     <header>
         <div class="navbar-container" id="navbar">
             <div class="top-bar">
-                <div class="container">
-                    <div class="inner-row">
-                        <a class="navbar-brand" href="/">
-                            <span>PhotoWithGarbGreh</span>
-                        </a>
-                        <ul class="list-inline ms-auto me-3">
-                            <li class="list-inline-item">1,000,000 pixels</li>
-                            <li class="list-inline-item">$1 per pixel</li>
-                            <li class="list-inline-item">Own a piece of internet history!</li>
-                        </ul>
-                        <button class="btn p-0 btn-sold">
-                            <img src="<?=base_url();?>assets/images/sold-badge.png" alt="" />
-                        </button>
+                <div class="inner-row">
+                    <a class="navbar-brand" href="homesample.html">
+                        <img src="assets/images/Welcoming Ram Bhakts Globally to the.png" alt="">
+                    </a>
+                    <ul>
+                        <img src="assets/images/logo.png" alt="">
+                    </ul>
+                    <div class="nav-img">
+                        <img src="assets/images/house.png" alt="" />
                     </div>
                 </div>
             </div>

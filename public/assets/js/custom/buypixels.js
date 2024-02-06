@@ -138,15 +138,29 @@ $(document).ready(function () {
         const deltaY = e.clientY - startY;
     
         // Calculate the maximum delta for both X and Y directions
-        const maxDeltaX = Math.min(70, Math.abs(deltaX));
-        const maxDeltaY = Math.min(70, Math.abs(deltaY));
+        const maxDeltaX = Math.min(60, Math.abs(deltaX));
+        const maxDeltaY = Math.min(60, Math.abs(deltaY));
     
         // Use the minimum of the two as the overall maxDelta
         const maxDelta = Math.min(maxDeltaX, maxDeltaY);
     
         // Calculate the size based on the strict rules (1x1, 2x2, 3x3, ..., 7x7)
         const gridSize = 10;
-        const snappedSize = Math.floor(maxDelta / gridSize) * gridSize;
+        const snappedSize = Math.min(Math.floor(maxDelta / gridSize) * gridSize, 70); // Limit to 7x7
+    
+        // Check if the cursor is outside the pixel-container
+        const containerRect = pixelContainer.getBoundingClientRect();
+        const isOutsideContainer = (
+            e.clientX < containerRect.left ||
+            e.clientX > containerRect.right ||
+            e.clientY < containerRect.top ||
+            e.clientY > containerRect.bottom
+        );
+    
+        if (isOutsideContainer) {
+            endDrag(); // If outside, end the drag
+            return;
+        }
     
         overlay.style.width = `${snappedSize}px`;
         overlay.style.height = `${snappedSize}px`;
