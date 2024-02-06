@@ -13,7 +13,7 @@ class ImageCoordinatesModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'name', 'email', 'phone', 'city', 'state', 'country', 'selectedPixelsCoordinates', 'groupCoordinates', 'imageLocation', 'numberOfPixelBoxes', 'totalamount', 'dateUploaded', 'status'
+        'name', 'email', 'phone', 'city', 'state', 'country', 'selectedPixelsCoordinates', 'groupCoordinates', 'imageLocation', 'thumbnailLocation', 'numberOfPixelBoxes', 'totalamount', 'dateUploaded', 'status'
     ];
 
     // Dates

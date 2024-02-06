@@ -148,12 +148,6 @@
             </div>
             <div class="bottom-bar">
                 <nav class="navbar navbar-expand-lg main_nav container">
-                    <div class="social-button">
-                        <a href="#" class="nav-link">
-                            <img src="<?=base_url();?>assets/images/Dribbble-Light-Preview.png" alt="" />
-                            Follow @ lorem
-                        </a>
-                    </div>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>

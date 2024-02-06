@@ -9,7 +9,7 @@ $(document).ready(function () {
         success: function (data) {
             data.forEach(function (imageData) {
                 // Cover pixels based on selectedPixelsCoordinates with a single image container
-                coverPixels(pixelContainer, JSON.parse(imageData.selectedPixelsCoordinates), imageData.imageLocation, imageData.image_coordinate_id, imageData);
+                coverPixels(pixelContainer, JSON.parse(imageData.selectedPixelsCoordinates), imageData.thumbnailLocation, imageData.image_coordinate_id, imageData);
             });
         },
         error: function (error) {
@@ -137,7 +137,7 @@ $(document).ready(function () {
                         
                         // Assuming these properties exist in your response
                         var selectedPixelsCoordinates = response.selectedPixelsCoordinates;
-                        var imageLocation = response.imageLocation;
+                        var imageLocation = response.thumbnailLocation;
                         var imageCoordinateId = response.image_coordinate_id;
             
                         coverPixels(pixelContainer, JSON.parse(selectedPixelsCoordinates), imageLocation, imageCoordinateId, response);

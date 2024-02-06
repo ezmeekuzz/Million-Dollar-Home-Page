@@ -37,7 +37,6 @@ class HomeController extends BaseController
     
         $iCModel->select('*');
     
-        // Add a where condition for status with the value "Pending"
         $iCModel->where('status', 'Pending');
     
         if (!empty($search)) {
@@ -64,33 +63,52 @@ class HomeController extends BaseController
     public function delete($id)
     {
         $iCModel = new ImageCoordinatesModel();
-        
+    
+        // Find the transaction by ID
         $transaction = $iCModel->find($id);
-        
+    
         if ($transaction) {
-            $imageLocation = $transaction['imageLocation']; // Assuming the field name is 'imageLocation'
+            $imageLocation = $transaction['imageLocation'];
+            $thumbnailLocation = $transaction['thumbnailLocation'];
     
             // Delete the image file
             if (!empty($imageLocation)) {
-                $imagePath = FCPATH . $imageLocation; // Adjust the path accordingly
+                $imagePath = FCPATH . $imageLocation;
     
                 if (file_exists($imagePath)) {
-                    unlink($imagePath);
+                    if (!unlink($imagePath)) {
+                        return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to delete the image file']);
+                    }
                 }
             }
     
-            $iCModel->delete($id);
+            // Delete the thumbnail file
+            if (!empty($thumbnailLocation)) {
+                $thumbnailPath = FCPATH . $thumbnailLocation;
     
-            return $this->response->setJSON(['status' => 'success']);
+                if (file_exists($thumbnailPath)) {
+                    if (!unlink($thumbnailPath)) {
+                        return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to delete the thumbnail file']);
+                    }
+                }
+            }
+    
+            // Delete the record from the database
+            $deleted = $iCModel->delete($id);
+    
+            if ($deleted) {
+                return $this->response->setJSON(['status' => 'success']);
+            } else {
+                return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to delete the transaction from the database']);
+            }
         }
     
         return $this->response->setJSON(['status' => 'error', 'message' => 'Transaction not found']);
     } 
     public function approve($id)
     {
-        $model = new ImageCoordinatesModel(); // Replace YourModel with the actual model you're using
+        $model = new ImageCoordinatesModel();
 
-        // Update status to 'Approved' (you might have a different field name)
         $model->update($id, ['status' => 'Approved']);
 
         return $this->response->setJSON(['status' => 'success']);
@@ -98,9 +116,8 @@ class HomeController extends BaseController
 
     public function reject($id)
     {
-        $model = new ImageCoordinatesModel(); // Replace YourModel with the actual model you're using
+        $model = new ImageCoordinatesModel();
 
-        // Update status to 'Rejected' (you might have a different field name)
         $model->update($id, ['status' => 'Rejected']);
 
         return $this->response->setJSON(['status' => 'success']);
